@@ -1,0 +1,2 @@
+[console_scripts]
+robot_controller = mobile_robot.robot_controller:main
