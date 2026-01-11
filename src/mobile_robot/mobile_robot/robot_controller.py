@@ -17,7 +17,7 @@ class RobotController(Node):
        
         # Set movement values
         msg.linear.x = 0.5   # Forward speed in m/s
-        msg.angular.z = 0.2  # Rotation speed in rad/s
+        msg.angular.z = -0.2  # Rotation speed in rad/s
        
         # Publish the message
         self.publisher_.publish(msg)

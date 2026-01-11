@@ -29,7 +29,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            # 'robot_controller = mobile_robot.robot_controller:main',
+            'robot_controller = mobile_robot.robot_controller:main',
         ],
     },
 )

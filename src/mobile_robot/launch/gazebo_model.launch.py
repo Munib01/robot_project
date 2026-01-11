@@ -45,11 +45,11 @@ def generate_launch_description():
 	)
 
 	# Custom Controller Node
-	# nodeRobotController = Node (
-	# 	package='mobile_robot',
-	# 	executable='robot_controller',
-	# 	output='screen'
-	# )
+	nodeRobotController = Node (
+		package='mobile_robot',
+		executable='robot_controller',
+		output='screen'
+	)
 
 	# this is to control robot from ROS2
 	bridge_params = os.path.join(
@@ -76,6 +76,6 @@ def generate_launch_description():
 	launchDescriptionObject.add_action(spawnModelNodeGazebo)
 	launchDescriptionObject.add_action(nodeRobotStatePublisher)
 	launchDescriptionObject.add_action(start_gazebo_ros_bridge_cmd)
-	# launchDescriptionObject.add_action(nodeRobotController)
+	launchDescriptionObject.add_action(nodeRobotController)
 
 	return launchDescriptionObject
