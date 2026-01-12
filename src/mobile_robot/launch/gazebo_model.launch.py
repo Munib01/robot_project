@@ -3,6 +3,8 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
 
 from launch_ros.actions import Node
 import xacro
@@ -11,6 +13,11 @@ import xacro
 def generate_launch_description():
 	# this name must match robot name in xacro file
 	robotXacroName='differential_drive_robot'
+
+
+	# Declare the arguments
+	target_x_arg = DeclareLaunchArgument('target_x', default_value='5.0')
+	target_y_arg = DeclareLaunchArgument('target_y', default_value='5.0')
 
 	namePackage = 'mobile_robot'
 
@@ -44,11 +51,16 @@ def generate_launch_description():
 		'use_sim_time':True}]
 	)
 
-	# Custom Controller Node
-	nodeRobotController = Node (
+	# Add the node with parameters
+	nodeRobotController = Node(
 		package='mobile_robot',
 		executable='robot_controller',
-		output='screen'
+		output='screen',
+		parameters=[{
+			'use_sim_time': True,
+			'target_x': LaunchConfiguration('target_x'),
+			'target_y': LaunchConfiguration('target_y'),
+		}]
 	)
 
 	# this is to control robot from ROS2
@@ -76,6 +88,8 @@ def generate_launch_description():
 	launchDescriptionObject.add_action(spawnModelNodeGazebo)
 	launchDescriptionObject.add_action(nodeRobotStatePublisher)
 	launchDescriptionObject.add_action(start_gazebo_ros_bridge_cmd)
+	launchDescriptionObject.add_action(target_x_arg)
+	launchDescriptionObject.add_action(target_y_arg)
 	launchDescriptionObject.add_action(nodeRobotController)
 
 	return launchDescriptionObject

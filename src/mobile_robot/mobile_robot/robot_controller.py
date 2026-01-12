@@ -14,11 +14,15 @@ class RobotController(Node):
         self.odom_sub = self.create_subscription(Odometry, '/odom', self.odom_callback, 10)
         self.lidar_sub = self.create_subscription(LaserScan, '/scan', self.lidar_callback, 10)
         
-        # 2. Target Goal
-        self.target_x = 10.0
-        self.target_y = 10.0
+        # Declare ROS 2 parameters (Target Coordinates)
+        self.declare_parameter('target_x', 0.0)
+        self.declare_parameter('target_y', 0.0)
         self.goal_tolerance = 0.5
-        
+
+        # Get the values
+        self.target_x = self.get_parameter('target_x').get_parameter_value().double_value
+        self.target_y = self.get_parameter('target_y').get_parameter_value().double_value
+                
         # 3. State Variables
         self.current_x = 0.0
         self.current_y = 0.0
