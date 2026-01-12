@@ -1,25 +1,92 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
+from nav_msgs.msg import Odometry
+from sensor_msgs.msg import LaserScan
+import math
 
 class RobotController(Node):
     def __init__(self):
         super().__init__('robot_controller')
-        # Create a publisher to the /cmd_vel topic
+        
+        # 1. Publishers & Subscribers
         self.publisher_ = self.create_publisher(Twist, '/cmd_vel', 10)
-       
-        # Timer to publish commands every 0.1 seconds (10Hz)
-        self.timer = self.create_timer(0.1, self.move_robot)
-        self.get_logger().info('Robot Controller Node has started')
+        self.odom_sub = self.create_subscription(Odometry, '/odom', self.odom_callback, 10)
+        self.lidar_sub = self.create_subscription(LaserScan, '/scan', self.lidar_callback, 10)
+        
+        # 2. Target Goal
+        self.target_x = 10.0
+        self.target_y = 10.0
+        self.goal_tolerance = 0.5
+        
+        # 3. State Variables
+        self.current_x = 0.0
+        self.current_y = 0.0
+        self.current_theta = 0.0
+        self.min_obstacle_distance = 10.0
+        
+        # 4. Control Timer (10Hz)
+        self.timer = self.create_timer(0.1, self.control_loop)
+        self.get_logger().info(f'Controller Started. Goal: ({self.target_x}, {self.target_y})')
 
-    def move_robot(self):
+    def odom_callback(self, msg):
+        """Extracts position and orientation (Yaw) from Odometry."""
+        # Position
+        self.current_x = msg.pose.pose.position.x
+        self.current_y = msg.pose.pose.position.y
+        
+        # Orientation (Quaternion to Euler Yaw)
+        q = msg.pose.pose.orientation
+        siny_cosp = 2 * (q.w * q.z + q.x * q.y)
+        cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z)
+        self.current_theta = math.atan2(siny_cosp, cosy_cosp)
+
+    def lidar_callback(self, msg):
+        """Standard LiDAR safety check."""
+        if msg.ranges:
+            self.min_obstacle_distance = min(msg.ranges)
+
+    def control_loop(self):
         msg = Twist()
-       
-        # Set movement values
-        msg.linear.x = 0.5   # Forward speed in m/s
-        msg.angular.z = -0.2  # Rotation speed in rad/s
-       
-        # Publish the message
+
+        # A. Calculate Euclidean distance
+        dist_x = self.target_x - self.current_x
+        dist_y = self.target_y - self.current_y
+        distance_to_goal = math.sqrt(dist_x**2 + dist_y**2)
+        self.get_logger().info(f'current: ({self.current_x}, {self.current_y})')
+        self.get_logger().info(f'target: ({self.target_x}, {self.target_y})')
+
+
+        
+        # B. Calculate Angle Error
+        angle_to_target = math.atan2(dist_y, dist_x)
+        angle_error = angle_to_target - self.current_theta
+        
+        # Normalize angle_error to [-pi, pi] to prevent infinite spinning
+        angle_error = math.atan2(math.sin(angle_error), math.cos(angle_error))
+
+        # C. Safety Logic
+        if self.min_obstacle_distance < 0.6:
+            self.get_logger().warn('Obstacle too close! Emergency Stop.')
+            msg.linear.x = 0.0
+            msg.angular.z = 0.3  # Slowly rotate to clear sensor
+        
+        # D. Navigation Logic
+        else:
+            if distance_to_goal > self.goal_tolerance:
+                # If angle error is large, rotate in place first
+                if abs(angle_error) > 0.3:
+                    msg.linear.x = 0.1  # Creep forward slightly
+                    msg.angular.z = 0.6 if angle_error > 0 else -0.6
+                else:
+                    # Pointing correctly, move forward
+                    msg.linear.x = 0.6
+                    msg.angular.z = 0.0
+            else:
+                self.get_logger().info('SUCCESS: Goal Reached!')
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+
         self.publisher_.publish(msg)
 
 def main(args=None):
@@ -28,7 +95,7 @@ def main(args=None):
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
-        # Stop the robot before shutting down
+        # Send zero velocity on shutdown
         stop_msg = Twist()
         node.publisher_.publish(stop_msg)
         node.destroy_node()

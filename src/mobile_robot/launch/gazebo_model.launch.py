@@ -22,7 +22,7 @@ def generate_launch_description():
 
 	gazebo_rosPackageLaunch = PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py'))
 
-	gazeboLaunch = IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args':['-r -v -v4 empty.sdf'], 'on_exit_shutdown': 'true'}.items())
+	gazeboLaunch = IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args':['-r -v4 empty.sdf'], 'on_exit_shutdown': 'true'}.items())
 
 	# Gazebo node
 	spawnModelNodeGazebo = Node(
