@@ -9,7 +9,7 @@
     <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics" />
     <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands" />
     <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster" />
-    
+   
     <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
       <render_engine>ogre</render_engine>
     </plugin>
@@ -35,11 +35,10 @@
     <model name="box_maze">
       <static>true</static>
       <link name="walls">
-        <visual name="w1_vis"><pose>10 0 0.5 0 0 0</pose><geometry><box><size>0.2 20 1</size></box></geometry></visual>
-        <collision name="w1_col"><pose>10 0 0.5 0 0 0</pose><geometry><box><size>0.2 20 1</size></box></geometry></collision>
-        <visual name="w2_vis"><pose>-10 0 0.5 0 0 0</pose><geometry><box><size>0.2 20 1</size></box></geometry></visual>
-        <collision name="w2_col"><pose>-10 0 0.5 0 0 0</pose><geometry><box><size>0.2 20 1</size></box></geometry></collision>
+        <visual name="w1_vis"><pose>5 0 0.5 0 0 0</pose><geometry><box><size>0.2 5 1</size></box></geometry></visual>
+        <collision name="w1_col"><pose>5 0 0.5 0 0 0</pose><geometry><box><size>0.2 5 1</size></box></geometry></collision>
       </link>
     </model>
   </world>
 </sdf>
+
