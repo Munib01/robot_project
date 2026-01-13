@@ -48,8 +48,8 @@
 #   direction: GZ_TO_ROS
 #   lazy: false
 
-- ros_topic_name: "ground_truth_pose"
-  gz_topic_name: "model/differential_drive_robot/pose"
-  ros_type_name: "geometry_msgs/msg/Pose"
-  gz_type_name: "gz.msgs.Pose_V"  # Use Pose_V here
-  direction: GZ_TO_ROS
+# - ros_topic_name: "ground_truth_pose"
+#   gz_topic_name: "model/differential_drive_robot/pose"
+#   ros_type_name: "geometry_msgs/msg/Pose"
+#   gz_type_name: "gz.msgs.Pose_V"  # Use Pose_V here
+#   direction: GZ_TO_ROS

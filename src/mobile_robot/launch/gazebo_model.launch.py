@@ -20,6 +20,10 @@ def generate_launch_description():
 	target_y_arg = DeclareLaunchArgument('target_y', default_value='5.0')
 
 	namePackage = 'mobile_robot'
+	
+	#path to you maze file
+	world_file_name = 'maze_1.sdf'
+	world_path = os.path.join(get_package_share_directory(namePackage), 'worlds', world_file_name)
 
 	modelFileRelativePath = 'model/robot.xacro'
 
@@ -29,7 +33,7 @@ def generate_launch_description():
 
 	gazebo_rosPackageLaunch = PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py'))
 
-	gazeboLaunch = IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args':['-r -v4 empty.sdf'], 'on_exit_shutdown': 'true'}.items())
+	gazeboLaunch = IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args':[f'-r -v4 {world_path}'], 'on_exit_shutdown': 'true'}.items())
 
 	# Gazebo node
 	spawnModelNodeGazebo = Node(
