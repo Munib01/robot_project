@@ -31,6 +31,9 @@ setup(
     entry_points={
         'console_scripts': [
             'robot_controller = mobile_robot.robot_controller:main',
+            'robot_env = mobile_robot.robot_env:main',
+            'train_model = mobile_robot.train_model:main',
+            'enjoy_robot = mobile_robot.enjoy_robot:main', # Add this line!
         ],
     },
 )

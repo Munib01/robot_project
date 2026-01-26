@@ -56,15 +56,23 @@ def generate_launch_description():
 	)
 
 	# Add the node with parameters
-	nodeRobotController = Node(
-		package='mobile_robot',
-		executable='robot_controller',
-		output='screen',
-		parameters=[{
-			'use_sim_time': True,
-			'target_x': LaunchConfiguration('target_x'),
-			'target_y': LaunchConfiguration('target_y'),
-		}]
+	# nodeRobotController = Node(
+	# 	package='mobile_robot',
+	# 	executable='robot_controller',
+	# 	output='screen',
+	# 	parameters=[{
+	# 		'use_sim_time': True,
+	# 		'target_x': LaunchConfiguration('target_x'),
+	# 		'target_y': LaunchConfiguration('target_y'),
+	# 	}]
+	# )
+	nodeServiceBridge = Node (
+	    package='ros_gz_bridge',
+	    executable='parameter_bridge',
+	    arguments=[
+	        '/world/maze_world/control@ros_gz_interfaces/srv/ControlWorld@gz.msgs.WorldControl'
+	    ],
+	    output='screen',
 	)
 
 	# this is to control robot from ROS2
@@ -94,6 +102,7 @@ def generate_launch_description():
 	launchDescriptionObject.add_action(start_gazebo_ros_bridge_cmd)
 	launchDescriptionObject.add_action(target_x_arg)
 	launchDescriptionObject.add_action(target_y_arg)
-	launchDescriptionObject.add_action(nodeRobotController)
+	launchDescriptionObject.add_action(nodeServiceBridge)
+	# launchDescriptionObject.add_action(nodeRobotController)
 
 	return launchDescriptionObject
