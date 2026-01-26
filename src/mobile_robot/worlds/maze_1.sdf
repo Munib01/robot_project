@@ -35,10 +35,42 @@
     <model name="box_maze">
       <static>true</static>
       <link name="walls">
-        <visual name="w1_vis"><pose>5 0 0.5 0 0 0</pose><geometry><box><size>0.2 5 1</size></box></geometry></visual>
-        <collision name="w1_col"><pose>5 0 0.5 0 0 0</pose><geometry><box><size>0.2 5 1</size></box></geometry></collision>
+        <!-- <visual name="w1_vis"><pose>5 0 0.5 0 0 0</pose><geometry><box><size>0.05 5 1</size></box></geometry></visual>
+        <collision name="w1_col"><pose>5 0 0.5 0 0 0</pose><geometry><box><size>0.05 5 1</size></box></geometry></collision> -->
+       
+        <visual name="w2_vis"><pose>5 1 0.5 0 0 1.5708</pose><geometry><box><size>0.05 14 1</size></box></geometry></visual>
+        <collision name="w2_col"><pose>5 1 0.5 0 0 1.5708</pose><geometry><box><size>0.05 14 1</size></box></geometry></collision>
+       
+        <visual name="w3_vis"><pose>0 -1 0.5 0 0 1.5708</pose><geometry><box><size>0.05 4 1</size></box></geometry></visual>
+        <collision name="w3_col"><pose>0 -1 0.5 0 0 1.5708</pose><geometry><box><size>0.05 4 1</size></box></geometry></collision>
+
+        <visual name="w4_vis"><pose>4 0 0.5 0 0 0</pose><geometry><box><size>0.05 2 1</size></box></geometry></visual>
+        <collision name="w4_col"><pose>4 0 0.5 0 0 0</pose><geometry><box><size>0.05 2 1</size></box></geometry></collision>
+
+        <visual name="w5_vis"><pose>2 -2 0.5 0 0 0</pose><geometry><box><size>0.05 2 1</size></box></geometry></visual>
+        <collision name="w5_col"><pose>2 -2 0.5 0 0 0</pose><geometry><box><size>0.05 2 1</size></box></geometry></collision>
+
+        <visual name="w6_vis"><pose>7 -3 0.5 0 0 1.5708</pose><geometry><box><size>0.05 10 1</size></box></geometry></visual>
+        <collision name="w6_col"><pose>7 -3 0.5 0 0 1.5708</pose><geometry><box><size>0.05 10 1</size></box></geometry></collision>
+
+        <visual name="w7_vis"><pose>7 -2 0.5 0 0 0</pose><geometry><box><size>0.05 2 1</size></box></geometry></visual>
+        <collision name="w7_col"><pose>7 -2 0.5 0 0 0</pose><geometry><box><size>0.05 2 1</size></box></geometry></collision>
+       
+        <visual name="w8_vis"><pose>7.5 -1 0.5 0 0 1.5708</pose><geometry><box><size>0.05 1 1</size></box></geometry></visual>
+        <collision name="w8_col"><pose>7.5 -1 0.5 0 0 1.5708</pose><geometry><box><size>0.05 1 1</size></box></geometry></collision>
+
+        <visual name="w9_vis"><pose>8 -2 0.5 0 0 0</pose><geometry><box><size>0.05 2 1</size></box></geometry></visual>
+        <collision name="w9_col"><pose>8 -2 0.5 0 0 0</pose><geometry><box><size>0.05 2 1</size></box></geometry></collision>
+
+        <visual name="w10_vis"><pose>11 0.5 0.5 0 0 0</pose><geometry><box><size>0.05 1 1</size></box></geometry></visual>
+        <collision name="w10_col"><pose>11 0.5 0.5 0 0 0</pose><geometry><box><size>0.05 1 1</size></box></geometry></collision>
+
+        <visual name="w11_vis"><pose>11 -2.5 0.5 0 0 0</pose><geometry><box><size>0.05 1 1</size></box></geometry></visual>
+        <collision name="w11_col"><pose>11 -2.5 0.5 0 0 0</pose><geometry><box><size>0.05 1 1</size></box></geometry></collision>
+
       </link>
     </model>
   </world>
 </sdf>
+
 
